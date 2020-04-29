@@ -20,7 +20,7 @@ from . import POPENPOOL
 # video files that cut out
 # ffmpeg -copyts -i "concat:in1.ts|in2.ts" -muxpreload 0 -muxdelay 0 -c copy joint.ts
 
-class ComRemove( object ):
+class ComRemove:
   # _comskip = ['comskip', '--hwassist', '--cuvid', '--vdpau'];
   _comskip = ['comskip'];
   _comcut  = ['ffmpeg', '-nostdin', '-y', '-i'];
@@ -39,7 +39,6 @@ class ComRemove( object ):
       cpulimit : Set limit of cpu usage per thread
       verbose  : Depricated
     ''' 
-    super().__init__( **kwargs );
     self.__log = logging.getLogger(__name__);
 
     threads    = kwargs.get('threads',  None)                                           # Set number of threads process will use
@@ -265,7 +264,7 @@ class ComRemove( object ):
       fnum    += 1;                                                             # Increment the file number
     fid.close();                                                                # Close the edl file
     POPENPOOL.wait()
-    if sum( [p.returncode for p in procs] ) != 0:                               # If one or more of the process failed
+    if sum( [int(p.returncode) for p in procs] ) != 0:                          # If one or more of the process failed
       self.__log.critical( 'There was an error cutting out commericals!' );
       for tmp in tmpFiles:                                                      # Iterate over list of temporary files
         if os.path.isfile( tmp ):                                               # If the file exists
