@@ -303,7 +303,7 @@ class ComRemove:
     for file in tmpFiles:                                                       # Iterate over the input files
       self.__log.debug('Deleting temporary file: {}'.format(file));               # Debugging information 
       os.remove( file );                                                        # Delete the temporary file
-    if proc.returncode == 0:
+    if int(proc.returncode or 0) == 0:
       return outFile;
     else:
       try:
