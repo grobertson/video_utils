@@ -23,4 +23,4 @@ if __name__ == "__main__":
     cpulimit  = args.cpulimit,
     verbose   = args.verbose)
 
-  exit( inst.process( args.infile ) );  
+  exit( inst.removeCommercials( args.infile ) );  
