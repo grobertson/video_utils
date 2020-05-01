@@ -301,7 +301,7 @@ class PopenPool(Thread):
           endtime = time.monotonic() + timeout
         else:
           timeout = endtime - time.monotonic()
-          if timout <= 0.0:
+          if timeout <= 0.0:
             break
       time.sleep( TIMEOUT )
     return PROCLOCK.n == 0
