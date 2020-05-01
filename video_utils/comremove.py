@@ -270,6 +270,7 @@ class ComRemove:
     for n in procs:
       if n.returncode is None:
         pprint(n)
+        n.wait()
     
     if sum( p.returncode for p in procs ) != 0:                          # If one or more of the process failed
       self.__log.critical( 'There was an error cutting out commericals!' );
