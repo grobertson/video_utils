@@ -264,12 +264,14 @@ class ComRemove:
       fnum    += 1;                                                             # Increment the file number
     fid.close();                                                                # Close the edl file
     POPENPOOL.wait()
+    
+    for n in procs:
+      if n.returncode != 0:
+        print(n.returncode)
+        print(n.pid)
+    
     if sum( p.returncode for p in procs ) != 0:                          # If one or more of the process failed
       self.__log.critical( 'There was an error cutting out commericals!' );
-      for n in procs:
-        if n.returncode != 0:
-          print(n.returncode)
-          print(n.pid)
       for tmp in tmpFiles:                                                      # Iterate over list of temporary files
         if os.path.isfile( tmp ):                                               # If the file exists
           try:                                                                  # Try to 
