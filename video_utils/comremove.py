@@ -265,11 +265,12 @@ class ComRemove:
       info     = fid.readline();                                                # Read next line from edl file
       fnum    += 1;                                                             # Increment the file number
     fid.close();                                                                # Close the edl file
-    if POPENPOOL.wait() is False:
-      print(".wait() returned a non-true value")
+
+    # ToDo: Remove if POPENPOOL.wait() race condition is solved.
     for n in procs:
+    # Workaround for pool wait() race condition
       if n.returncode is None:
-        pprint(n)
+        self.__log.warn("Detected premature return from POPENPOOL.wait(), using Popenthread.wait() instead.")
         n.wait()
     
     if sum( p.returncode for p in procs ) != 0:                          # If one or more of the process failed

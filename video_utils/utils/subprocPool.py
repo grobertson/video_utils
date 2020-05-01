@@ -296,13 +296,14 @@ class PopenPool(Thread):
     '''
     endtime = None
     while PROCLOCK.n > 0 and not self.__threadQueue.empty():
+      #ToDo: A race condition exists due to the use of Queue.empty()
+      #  PopenPool.wait() can return prematurely.
       if timeout is not None:
         if endtime is None:
           endtime = time.monotonic() + timeout
         else:
           timeout = endtime - time.monotonic()
           if timeout <= 0.0:
-            print('Breaking out of Proc Lock because of timeout <= 0.0')
             break
       time.sleep( TIMEOUT )
     return PROCLOCK.n == 0
