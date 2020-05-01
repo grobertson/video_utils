@@ -263,12 +263,12 @@ class ComRemove:
       info     = fid.readline();                                                # Read next line from edl file
       fnum    += 1;                                                             # Increment the file number
     fid.close();                                                                # Close the edl file
-    POPENPOOL.wait()
-    
+    if POPENPOOL.wait() is False:
+      print(".wait() returned a non-true value")
     for n in procs:
-      if n.returncode != 0:
+      if n.returncode is None:
         print(n.returncode)
-        print(n.pid)
+        print(n._proc)
     
     if sum( p.returncode for p in procs ) != 0:                          # If one or more of the process failed
       self.__log.critical( 'There was an error cutting out commericals!' );

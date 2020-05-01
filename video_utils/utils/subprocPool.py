@@ -302,6 +302,7 @@ class PopenPool(Thread):
         else:
           timeout = endtime - time.monotonic()
           if timeout <= 0.0:
+            print('Breaking out of Proc Lock because of timeout <= 0.0')
             break
       time.sleep( TIMEOUT )
     return PROCLOCK.n == 0
